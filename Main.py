@@ -1,8 +1,8 @@
 import random
 
-class BinarySearchTree:
-    def __init__(self, pass_no, name):
-        self.pass_no = pass_no
+class Passenger:
+    def __init__(self, cust_id, name):
+        self.cust_id = cust_id
         self.name = name
         self.left = None
         self.right = None
@@ -10,101 +10,37 @@ class BinarySearchTree:
 class BusTicketManagementSystem:
     def __init__(self):
         self.root = None
-        self.bus_seat = [[0]*9 for _ in range(33)]
-    
+        self.bus_seat = [[0]*33 for _ in range(10)]
+
     def green_color(self):
         print("\033[1;32m", end="")
-        
+
     def reset_color(self):
         print("\033[0m", end="")
-        
-    def reservation_info(self, r, s, cust_id_matched):
-        if r is None:
-            return None
-        
-        present_node = r
-        while present_node:
-            if present_node.pass_no == s:
-                cust_id_matched[0] = 1
-                self.green_color()
-                print("\n-----------------------------------------------------------------")
-                print(f"||              NAME: {present_node.name:10}                               ||")
-                print(f"||              CUSTOMER ID: {present_node.pass_no: <10}                              ||")
-                print(f"||              BUS NUMBER: {present_node.pass_no // 1000: <10}                                  ||")
-                print(f"||              SEAT NUMBER: {present_node.pass_no % 100: <10}                                 ||")
-                print(f"||              TICKET COST: Tk.{self.cost(present_node): <10}                             ||")
-                print("-----------------------------------------------------------------")
-                self.reset_color()
-                input("Press any key to continue...")
-                return r
-            elif present_node.pass_no > s:
-                present_node = present_node.left
-            else:
-                present_node = present_node.right
-        
-        return None
-    
-    def insert(self, r, cust_id):
-        if r is None:
-            r = BinarySearchTree(cust_id, "")
-            if r is None:
-                print("No memory...")
-                return None
-            else:
-                r.left = r.right = None
-                r.name = input("\nEnter the person name: ")
-        else:
-            if r.pass_no > cust_id:
-                r.left = self.insert(r.left, cust_id)
-            elif r.pass_no < cust_id:
-                r.right = self.insert(r.right, cust_id)
-        return r
-    
-    def display_seat(self, bus):
-        for i in range(1, 33):
-            self.green_color()
-            print(f"{i:02d}. ", end="")
-            self.reset_color()
-            for seat in bus[i]:
-                if seat == 0:
-                    print("EMPTY", end=" ")
-                else:
-                    print("BOOKED", end=" ")
-            print()
-    
+
     def login(self):
-        username = "user"
+        user_name = "user"
         password = "Avisheikh001"
+        match_user = input("UserName: ")
+        match_pass = input("PassWord: ")
 
-        print("\n\n=========================================================================================")
-        print("\n\t\t\t\tWELCOME TO OUR BUS TERMINAL\n\n\t\t\t\t   \'Have a safe Journry\'")
-        print("\n\n=========================================================================================\n\n")
-
-        while True:
-            match_user = input("\n\nUserName: ")
-            match_pass = input("\nPassWord: ")
-
-            if match_user == username and match_pass == password:
-                print("\nLOGED IN SUCCESSFULLY...\n")
-                break
-            else:
-                print("\nINVALID DETAILS TRY AGAIN...\n")
-    
-    def cost(self, r):
-        bus_cost = r.pass_no // 1000
-        if bus_cost % 3 == 1:
-            return 2000
-        elif bus_cost % 3 == 2:
-            return 1000
-        elif bus_cost % 3 == 0:
-            return 1500
+        if match_user != user_name or match_pass != password:
+            self.green_color()
+            print("INVALID DETAILS TRY AGAIN...")
+            self.reset_color()
+            return False
         else:
-            return 0
-    
-    def status(self):
+            self.green_color()
+            print("LOGGED IN SUCCESSFULLY...")
+            self.reset_color()
+            return True
+
+    def bus_lists(self):
+        self.green_color()
         print("-------------------------------------------------------------------------------------------------")
         print("Bus.No\tName\t\t\t\tDestinations  \t\tCharges  \t\tTime")
         print("-------------------------------------------------------------------------------------------------")
+        self.reset_color()
         print("1\tSaintmartin Paribahan     \tDhaka to Cox's Bazar  \tTK.2000     \t\t10:00  PM")
         print("2\tAK_Travels                \tDhaka To Syleth       \tTk.1000     \t\t01:30  PM")
         print("3\tEna Paribahan             \tDhaka To Kuakata      \tTk.1500     \t\t03:50  PM")
@@ -114,109 +50,244 @@ class BusTicketManagementSystem:
         print("7\tShohag Paribahan          \tDhaka To Benapole     \tTk.2000     \t\t11:00  PM")
         print("8\tHanif Paribahan           \tDhaka To Bagura       \tTk.1000     \t\t08:15  AM")
         print("9\tSoudia Paribahan          \tDhaka To Chottogram   \tTk.1000     \t\t07:00  PM")
-        input("\n\nPress 'ENTER' key to continue...")
-    
-    def cancel(self, random_num):
-        reservation_no = int(input("\nEnter your reservation number: "))
-        if reservation_no == random_num:
-            confirmation = input(f"\nReservation number is it correct? {reservation_no}\nEnter (Y/N): ")
-            if confirmation.lower() == 'y':
-                bus_num = int(input("\nEnter the bus number: "))
-                seat_cancel = int(input("\nHow many seats do you want to cancel: "))
-                for i in range(seat_cancel):
-                    seat_number = int(input("\nEnter the seat number: "))
-                    self.bus_seat[bus_num][seat_number] = 0
-                print("\nYour reservation has been canceled!")
-                input("\nPress 'ENTER' key to continue...")
-                self.display_seat(self.bus_seat[bus_num])
+
+    def display_seat(self, bus):
+        for i in range(1, 33):
+            self.green_color()
+            print(f"{i:02d} .", end="")
+            self.reset_color()
+            if bus[i] == 0:
+                print("EMPTY ", end="")
             else:
-                print("\nYour reservation cancelation has been denied.")
+                print("BOOKED", end="")
+            print("         ", end="")
+            if i % 4 == 0:
+                print()
+
+    def reservation_info(self, root, cust_id):
+        current = root
+        while current:
+            if current.cust_id == cust_id:
+                self.green_color()
+                print("\n-----------------------------------------------------------------")
+                print(f"||              NAME: {current.name:10}                               ||")
+                print(f"||              CUSTOMER ID: {current.cust_id}                              ||")
+                print(f"||              BUS NUMBER: {current.cust_id // 1000}                                  ||")
+                print(f"||              SEAT NUMBER: {current.cust_id % 100}                                 ||")
+                print(f"||              TICKET COST: Tk.{self.cost(current)}                             ||")
+                print("-----------------------------------------------------------------")
+                self.reset_color()
+                input("Press any key to continue...")
+                return
+            elif current.cust_id > cust_id:
+                current = current.left
+            else:
+                current = current.right
+        print("Customer ID not found.")
+
+    def insert(self, root, cust_id, name):
+        if root is None:
+            return Passenger(cust_id, name)
         else:
-            print("\nReservation number not found. Please enter the correct reservation number.")
-    
-    def main(self):
-        random_num = random.randint(10000, 99999)
-        self.login()
+            if cust_id < root.cust_id:
+                root.left = self.insert(root.left, cust_id, name)
+            else:
+                root.right = self.insert(root.right, cust_id, name)
+        return root
+
+    def cancel(self, random_num):
         while True:
-            print("\n\n====================================================================")
+            try:
+                reservation_no = int(input("\nENTER YOUR RESERVATION NUMBER: "))
+                break
+            except ValueError:
+                print("Please enter a valid number.")
+
+        if reservation_no == random_num:
+            c = input("RESERVATION NUMBER IS IT CORRECT? (Y/N): ")
+            if c.lower() == 'y':
+                while True:
+                    try:
+                        choice = int(input("ENTER THE BUS NUMBER: "))
+                        break
+                    except ValueError:
+                        print("Please enter a valid number.")
+
+                while True:
+                    try:
+                        seat_cancel = int(input("HOW MANY SEATS DO YOU WANT TO CANCEL: "))
+                        break
+                    except ValueError:
+                        print("Please enter a valid number.")
+
+                for _ in range(seat_cancel):
+                    while True:
+                        try:
+                            seat_number = int(input("ENTER THE SEAT NUMBER: "))
+                            break
+                        except ValueError:
+                            print("Please enter a valid number.")
+
+                    self.bus_seat[choice][seat_number] = 0
+
+                print("\nYOUR RESERVATION HAS BEEN CANCELLED!!")
+                input("Press 'Enter' key to continue...")
+                self.display_seat(self.bus_seat[choice])
+            else:
+                print("YOUR RESERVATION CANCELLATION HAS BEEN DENIED.")
+        else:
+            print("NOT FOUND!! ENTER THE CORRECT RESERVATION NUMBER")
+
+    def cost(self, passenger):
+        bus_cost = passenger.cust_id // 1000
+        return {1: 2000, 2: 1000, 0: 1500}.get(bus_cost % 3, 0)
+
+    def status(self):
+        self.bus_lists()
+        while True:
+            try:
+                bus_num = int(input("\nENTER YOUR BUS NUMBER: "))
+                break
+            except ValueError:
+                print("Please enter a valid number.")
+
+        if bus_num <= 0 or bus_num >= 10:
+            self.green_color()
+            print("PLEASE ENTER CORRECT BUS NUMBER!!")
+            self.reset_color()
+        else:
+            self.display_seat(self.bus_seat[bus_num])
+            input("Press 'Enter' key to continue...")
+
+    def main(self):
+        random_num = random.randint(1000, 9999)
+        if not self.login():
+            return
+
+        while True:
+            print("\n\n====================================================================\n")
+            self.green_color()
             print("\t\t\tBUS RESERVATION")
-            print("\n=====================================================================")
-            print("\n====================  MAIN MENU  =====================\n")
+            self.reset_color()
+            print("\n\n=====================================================================")
+            print("\n====================")
+            self.green_color()
+            print("  MAIN MENU  ")
+            self.reset_color()
+            print("=====================\n")
             print("   [1] VIEW BUS LIST")
             print("   [2] BOOK TICKETS")
             print("   [3] CANCEL BOOKING")
             print("   [4] BUSES SEATS INFO")
             print("   [5] RESERVATION INFO")
-            print("   [6] EXIT\n")
-            num = int(input("Enter your choice: "))
-            if num == 1:
-                self.status()
-            elif num == 2:
-                self.status()
-                bus_choice = int(input("\nChoose your bus: "))
-                if bus_choice <= 0 or bus_choice > 9:
-                    print("\nEnter valid bus number!")
-                    continue
+            print("   [6] EXIT")
+            print("\n=====================================================")
+            try:
+                choice = int(input("ENTER YOUR CHOICE: "))
+            except ValueError:
+                self.green_color()
+                print("INVALID INPUT CHOOSE CORRECT OPTION")
+                self.reset_color()
+                continue
+
+            if choice == 1:
+                self.bus_lists()
+                input("Press 'Enter' key to continue...")
+            elif choice == 2:
+                self.bus_lists()
+                while True:
+                    try:
+                        bus_choice = int(input("\n\nCHOOSE YOUR BUS: "))
+                        if 1 <= bus_choice <= 9:
+                            break
+                        else:
+                            self.green_color()
+                            print("ENTER VALID BUS NUMBER!!")
+                            self.reset_color()
+                    except ValueError:
+                        self.green_color()
+                        print("ENTER VALID BUS NUMBER!!")
+                        self.reset_color()
                 self.display_seat(self.bus_seat[bus_choice])
                 while True:
-                    seats = int(input("\nNumber of seats you need to book: "))
-                    if seats <= 0:
-                        print("\nEnter valid seat number!")
-                    elif seats > 32:
-                        print("\nEnter valid seat number. We have only 32 seats in a bus!")
-                    else:
-                        break
-                
-                for i in range(1, seats+1):
-                    print("\n==================================================================================")
-                    while True:
-                        seat_number = int(input("Enter the seat number: "))
-                        if seat_number <= 0 or seat_number > 32:
-                            print("\nEnter valid seat number. We have only 32 seats in a bus!")
-                        else:
+                    try:
+                        seats = int(input("\n\nNO. OF SEATS YOU NEED TO BOOK: "))
+                        if 0 < seats <= 32:
                             break
-                    cust_id = bus_choice * 1000 + seat_number
-                    self.bus_seat[bus_choice][seat_number] = 1
-                    self.root = self.insert(self.root, cust_id)
-                    print(f"\nYour customer ID is: {cust_id}")
-                    print("\n==================================================================================")
-                print(f"\nYour reservation number is: {random_num}\nPlease note down your reservation number for canceling booking tickets!")
-                input("Press 'ENTER' key to continue...")
-                
-            elif num == 3:
-                self.cancel(random_num)
-                
-            elif num == 4:
-                print("\n\n")
-                self.display_seat(self.bus_seat)
-                input("Press 'ENTER' key to continue...")
-                
-            elif num == 5:
-                while True:
-                    reservation_no = int(input("\nEnter your reservation number: "))
-                    if reservation_no == random_num:
-                        while True:
-                            cust_id = int(input("\nEnter your customer ID: "))
-                            cust_id_matched = [0]
-                            self.reservation_info(self.root, cust_id, cust_id_matched)
-                            if cust_id_matched[0] == 0:
-                                print("\nEnter correct customer ID!")
-                            else:
+                        else:
+                            self.green_color()
+                            print("ENTER VALID SEAT NUMBER!!")
+                            self.reset_color()
+                    except ValueError:
+                        self.green_color()
+                        print("ENTER VALID SEAT NUMBER!!")
+                        self.reset_color()
+                for _ in range(seats):
+                    while True:
+                        try:
+                            seat_number = int(input("ENTER THE SEAT NUMBER: "))
+                            if 1 <= seat_number <= 32:
                                 break
+                            else:
+                                self.green_color()
+                                print("ENTER VALID SEAT NUMBER!!")
+                                self.reset_color()
+                        except ValueError:
+                            self.green_color()
+                            print("ENTER VALID SEAT NUMBER!!")
+                            self.reset_color()
+                    cust_id = bus_choice * 1000 + seat_number
+                    name = input("ENTER THE PERSON NAME: ")
+                    self.bus_seat[bus_choice][seat_number] = 1
+                    self.root = self.insert(self.root, cust_id, name)
+                    self.green_color()
+                    print(f"YOUR CUSTOMER ID IS: {cust_id}")
+                    self.reset_color()
+                self.green_color()
+                print(f"\nYOUR RESERVATION NUMBER IS: {random_num}")
+                print("PLEASE NOTE DOWN YOUR RESERVATION NUMBER FOR CANCEL BOOKING TICKETS!!")
+                self.reset_color()
+                input("Press 'Enter' key to continue...")
+            elif choice == 3:
+                self.cancel(random_num)
+            elif choice == 4:
+                self.status()
+            elif choice == 5:
+                while True:
+                    try:
+                        reservation_no = int(input("ENTER YOUR RESERVATION NUMBER: "))
                         break
-                    else:
-                        print("\nInvalid reservation number. Please enter correct reservation number!")
-                
-            elif num == 6:
-                print("\n\n=====================================================================")
-                print("THANK YOU FOR USING THIS BUS RESERVATION SYSTEM")
-                print("\nPRESS ANY KEY TO EXIT THE END PROGRAM !! ")
-                print("\n\n")
+                    except ValueError:
+                        self.green_color()
+                        print("INVALID RESERVATION NUMBER!!")
+                        self.reset_color()
+
+                if reservation_no == random_num:
+                    while True:
+                        try:
+                            cust_id = int(input("ENTER YOUR CUSTOMER ID: "))
+                            break
+                        except ValueError:
+                            self.green_color()
+                            print("INVALID CUSTOMER ID!!")
+                            self.reset_color()
+                    self.reservation_info(self.root, cust_id)
+                else:
+                    self.green_color()
+                    print("INVALID RESERVATION NUMBER!!")
+                    self.reset_color()
+            elif choice == 6:
                 break
-                
             else:
-                print("\n\n   INVALID INPUT! CHOOSE CORRECT OPTION!\n")
-    
+                self.green_color()
+                print("INVALID INPUT CHOOSE CORRECT OPTION")
+                self.reset_color()
+
+        self.green_color()
+        print("\n\nTHANK YOU FOR USING THIS BUS RESERVATION SYSTEM")
+        self.reset_color()
+        input("PRESS ANY KEY TO EXIT THE PROGRAM!!")
+
 if __name__ == "__main__":
-    bus_system = BusTicketManagementSystem()
-    bus_system.main()
+    system = BusTicketManagementSystem()
+    system.main()

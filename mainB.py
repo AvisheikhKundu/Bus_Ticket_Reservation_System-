@@ -19,7 +19,7 @@ class BusTicketManagementSystem:
         print("\033[0m", end="")
 
     def login(self):
-        user_name = "user"
+        user_name = "Avisheikh"
         password = "Avisheikh001"
         match_user = input("UserName: ")
         match_pass = input("PassWord: ")
@@ -174,14 +174,16 @@ class BusTicketManagementSystem:
             self.green_color()
             print("  MAIN MENU  ")
             self.reset_color()
-            print("=====================\n")
+
+            print("====================================================================\n")
             print("   [1] VIEW BUS LIST")
             print("   [2] BOOK TICKETS")
             print("   [3] CANCEL BOOKING")
             print("   [4] BUSES SEATS INFO")
             print("   [5] RESERVATION INFO")
             print("   [6] EXIT")
-            print("\n=====================================================")
+            print("\n====================================================================")
+            
             try:
                 choice = int(input("ENTER YOUR CHOICE: "))
             except ValueError:

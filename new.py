@@ -63,7 +63,7 @@ class BusTicketManagementSystem:
         print()
 
     def login(self):
-        username = "Avisheikh"
+        username = "user"
         password = "Avisheikh001"
 
         print("\n\n=========================================================================================")
@@ -190,19 +190,7 @@ class BusTicketManagementSystem:
                     
                     self.display_seat(self.bus_seat[bus_choice])
                     
-                    while True:
-                        try:
-                            seats = int(input("\nNUMBER OF SEATS YOU NEED TO BOOK: "))
-                            if seats <= 0 or seats > 32:
-                                self.green_color()
-                                print("\nENTER VALID SEAT NUMBER!!")
-                                self.reset_color()
-                            else:
-                                break
-                        except ValueError:
-                            self.green_color()
-                            print("\nENTER A VALID NUMBER!!")
-                            self.reset_color()
+            
                     
                     for i in range(seats):
                         while True:

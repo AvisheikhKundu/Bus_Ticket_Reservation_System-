@@ -15,7 +15,7 @@ class BusTicketManagementSystem:
     def green_color(self):
         print("\033[1;32m", end="")
         
-    def reset_color(self):
+    def reset_color(self):  
         print("\033[0m", end="")
     
     def insert(self, root, cust_id, name):
@@ -39,7 +39,7 @@ class BusTicketManagementSystem:
             print(f"||              BUS NUMBER: {root.passn_no // 1000: <10}                       ||")
             print(f"||              SEAT NUMBER: {root.passn_no % 100: <10}                        ||")
             print(f"||              TICKET COST: Tk.{self.cost(root): <10}                         ||")
-            print("-----------------------------------------------------------------")
+            print("-------------------------------------------------------------------")
             self.reset_color()
             input("Press any key to continue...")
             return root
@@ -67,7 +67,7 @@ class BusTicketManagementSystem:
         password = "Avisheikh001"
 
         print("\n\n=========================================================================================")
-        print("\n\t\t\t\tWELCOME TO OUR BUS TERMINAL\n\n\t\t\t\t   'Have a safe Journey'")
+        print("\n\t\t\t\tWELCOME TO GABTOLI TERMINAL\n\n\t\t\t\t   'Have a safe Journey'")
         print("\n\n=========================================================================================\n\n")
 
         while True:
@@ -91,6 +91,7 @@ class BusTicketManagementSystem:
         elif bus_cost % 3 == 0:
             return 1500
         return 0
+
 
     def status(self):
         self.bus_lists()
@@ -129,6 +130,7 @@ class BusTicketManagementSystem:
         print("9\tSoudia Paribahan          \tDhaka To Chattogram   \tTk.1000     \t\t07:00  PM")
         print()
         input("PRESS 'ENTER' KEY TO CONTINUE ")
+
 
     def cancel(self, random_num):
         while True:

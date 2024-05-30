@@ -160,7 +160,7 @@ class BusTicketManagementSystem:
         while True:
             print("\n\n====================================================================")
             print("\t\t\tBUS RESERVATION")
-            print("\n=====================================================================")
+            print("\n======================================================================")
             print("\n====================  MAIN MENU  =====================\n")
             print("   [1] VIEW BUS LIST")
             print("   [2] BOOK TICKETS")
@@ -240,7 +240,7 @@ class BusTicketManagementSystem:
                 elif choice == 6:
                     self.green_color()
                     print("\n\n=====================================================================")
-                    print("THANK YOU FOR USING THIS BUS RESERVATION SYSTEM")
+                    print("THANK YOU FOR USING THIS BUS TICKET RESERVATION SYSTEM")
                     print("\nPRESS ANY KEY TO EXIT THE END PROGRAM !! ")
                     print("\n\n")
                     self.reset_color()

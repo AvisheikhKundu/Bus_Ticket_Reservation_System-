@@ -1,4 +1,5 @@
 
+
 #Author@AvisheikhKundu
 
 
@@ -10,6 +11,7 @@ class Passenger:
         self.name = name
         self.left = None
         self.right = None
+
 
 class BusTicketManagementSystem:
     def __init__(self):
